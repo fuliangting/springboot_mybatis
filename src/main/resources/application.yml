@@ -1,0 +1,49 @@
+server:
+  # 设置项目启动的端口号
+  port: 8080
+  # 设置项目的访问路径 (上下文路径)
+  servlet:
+    context-path: /springboot_mybatis
+
+## 数据源配置
+spring:
+  datasource:
+    type: com.mchange.v2.c3p0.ComboPooledDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/spring_mybatis?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
+    #url: jdbc:mysql://localhost:3306/spring_mybatis?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false
+    username: root
+    password: root
+  ## Ehcache缓存配置
+  cache:
+    ehcache:
+      config: classpath:ehcache.xml
+  ## 热部署配置
+  devtools:
+    restart:
+      #设置重启的目录，添加目录的文件需要restart
+      additional-paths: src/main/java
+      enabled: true
+      #解决项目自动重新编译后接口报404的问题
+      poll-interval: 3000
+      quiet-period: 1000
+
+## mybatis 配置
+mybatis:
+  #映射文件的存放路径
+  mapper-locations: classpath:/mappers/*.xml
+  type-aliases-package: com.fu.springboot.po
+  configuration:
+    ## 下划线转驼峰配置
+    map-underscore-to-camel-case: true
+
+## pageHelper
+pagehelper:
+  helper-dialect: mysql
+
+## 显示dao 执行sql语句
+logging:level:
+  com:
+    fu :
+      springboot:
+        dao: debug

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fu.springboot.dao.UserMapper">
+
+    <select id="queryUserByUserName" parameterType="string"
+            resultType="com.fu.springboot.po.User">
+        select
+            user_id as id, user_name, user_pwd from tb_user
+        where user_name=#{userName}
+    </select>
+
+    <select id="queryUserByUserId" parameterType="int"
+            resultType="com.fu.springboot.po.User">
+        select
+            user_id as id, user_name, user_pwd from tb_user
+        where user_id=#{userId}
+    </select>
+
+    <insert id="addUser" parameterType="com.fu.springboot.po.User">
+        insert into tb_user (user_id, user_name, user_pwd)
+            values (#{id}, #{userName}, #{userPwd})
+    </insert>
+    
+    <update id="updateUser" parameterType="com.fu.springboot.po.User">
+        update tb_user
+            set user_name=#{userName}, user_pwd=#{userPwd}
+        where user_id=#{id}
+    </update>
+
+    <delete id="deleteUser" parameterType="int">
+        delete from tb_user
+        where user_id=#{id}
+    </delete>
+
+    <select id="queryUserByParam" parameterType="com.fu.springboot.query.UserQuery"
+            resultType="com.fu.springboot.po.User">
+        Select user_id as id, user_name, user_pwd
+            from tb_user
+        <where>
+            <if test=" userName!=null and userName!='' ">
+                and user_name like concat("%", #{userName}, "%")
+            </if>
+        </where>
+        order by user_id
+    </select>
+</mapper>
